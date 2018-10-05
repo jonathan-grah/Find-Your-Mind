@@ -2,10 +2,13 @@ import React from 'React';
 import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native';
 import { Bubble, GiftedChat } from 'react-native-gifted-chat';
 import { DirectLine } from 'botframework-directlinejs';
+import { Avatar, Header } from 'react-native-elements';
 
 const directLine = new DirectLine({
   secret: 'l_s_ArfNlk4.cwA.qzc.wSrA9_htdQaRshEWnJGNbCAQuUGZPAkw-_-Q5dE46e4'
 });
+
+const botAvatar = 'https://i.imgur.com/t6mQMfS.png';
 
 const botMessageToGiftedMessage = botMessage => ({
   ...botMessage,
@@ -14,8 +17,7 @@ const botMessageToGiftedMessage = botMessage => ({
   user: {
     _id: 2,
     name: 'Simon',
-    avatar:
-      'https://people.ceu.edu/sites/people.ceu.hu/files/styles/panopoly_image_full/public/profile/portrait/1474/simon1_1.jpg?itok=qh7d4F24'
+    avatar: botAvatar
   }
 });
 
@@ -71,16 +73,40 @@ export default class ChatScreen extends React.Component {
     );
   }
 
+  renderBotHeader() {
+    return (
+      <View>
+        <Text>Simon</Text>
+      </View>
+    );
+  }
+
   render() {
     return (
       <View style={styles.container}>
+        <Header
+          backgroundColor='powderblue'
+          leftComponent={{
+            icon: 'arrow-back',
+            color: '#000',
+            onPress: () => this.props.navigation.goBack()
+          }}
+          centerComponent={this.renderBotHeader()}
+          rightComponent={{
+            icon: 'question-answer',
+            color: '#000',
+            onPress: () => this.props.navigation.navigate('Info')
+          }}
+        />
         <GiftedChat
           messages={this.state.messages}
           onSend={this.onSend}
           user={{
-            _id: 1
+            _id: 1,
+            avatar: 'https://timedotcom.files.wordpress.com/2017/12/terry-crews-person-of-year-2017-time-magazine-2.jpg'
           }}
           renderBubble={this.renderBubble.bind(this)}
+          showUserAvatar={true}
         />
         <KeyboardAvoidingView behavior="padding" enabled />
       </View>
