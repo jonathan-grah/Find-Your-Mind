@@ -1,27 +1,29 @@
 {
   "expo": {
-    "name": "app",
-    "description": "This project is really great.",
-    "slug": "app",
+    "name": "Find your Mind",
+    "description": "A tool to improve your journey with depression",
+    "slug": "find_your_mind",
     "privacy": "public",
+    "githubUrl": "https://github.com/jonathan-grah/Find-Your-Mind",
     "sdkVersion": "30.0.0",
     "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "net.jonathangraham.jonathan.uk.findyourmind"
     }
   }
 }

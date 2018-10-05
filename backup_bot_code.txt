@@ -1,0 +1,150 @@
+var builder = require('botbuilder');
+var restify = require('restify');
+require('dotenv-extended').load();
+
+var server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, () => {
+    console.log('%s listening to %s', server.name, server.url);
+});
+
+var connector = new builder.ChatConnector({
+    appId: '8667f284-6847-4a9f-94a9-73e6c27b904c',
+    appPassword: 'delpWK37={bsgDUKDY616)|'
+});
+
+var inMemoryStorage = new builder.MemoryBotStorage();
+
+var bot = new builder.UniversalBot(connector).set('storage', inMemoryStorage);
+
+bot.dialog('/', session => {
+    session.send('I\'m not able to answer that!');
+    session.endDialog();
+});
+
+bot.dialog('greeting', session => {
+    session.send('Hi, i\'m your chatbot Simon, how are you?');
+    session.endDialog();
+}).triggerAction({ matches: /^(hello*|hi*|yo*)$/i });
+
+bot.dialog('no improvement', [
+    session => {
+        var noImprovementQuestions = [
+           'Tell me, what is bothering you?',
+           'What is wrong?',
+           'What happened today?',
+           'Why are you upset?'
+        ];
+        builder.Prompts.text(session, noImprovementQuestions[
+            Math.floor(Math.random()*noImprovementQuestions.length)
+        ]);
+    },
+    (session, results) => {
+        session.dialogData.issue = results.response;
+        session.send('That is awful to hear ??');
+        builder.Prompts.confirm(session, 'Would you like the number to a mental health hotline?');
+    },
+    (session, results) => {
+        session.dialogData.hotlineRequired = results.response;
+        if (session.dialogData.hotlineRequired) session.send('Please call the Samaritans at `116123`');
+        else {
+            var happyThoughts = [
+                'Okay, stay safe and we are here for guidance',
+                'Think postively!',
+                'Just remember, I am always here for you',
+                'I just wanted to remind you that you are loved ??',
+                'I know things are hard right now, but it will get better',
+                'There is always light at the end of the tunnel'
+            ];
+            session.send(happyThoughts[Math.floor(Math.random()*happyThoughts.length)]);
+        }
+    }
+]).triggerAction({ matches: /(lonely|alone|sad|depress|fail|upset|cutting|bad|unhapp|suicid|worthless)/i });
+
+bot.dialog('improvement', [
+    session => {
+        var improvement = [
+           'That is great news! We are so pleased ??',
+           'I\'m glad that you\'re getting better',
+           'Happy to help!',
+           'That is fantastic, remember, we are always here to help'
+        ];
+        session.send(improvement[Math.floor(Math.random()*improvement.length)]);
+    }
+]).triggerAction({ matches: /(better|happ|delight|improv|good|great|awesome)/i });
+
+bot.dialog('thanks', [
+    session => {
+        var approvalOfThanks = [
+           'No problem, I\'m always here to help!',
+           'Awww, thanks :)',
+           'No worries, it\'s cool!',
+           'Glad to be of use'
+        ];
+        session.send(approvalOfThanks[Math.floor(Math.random()*approvalOfThanks.length)]);
+    }
+]).triggerAction({ matches: /(thank|glad|grateful|lucky|cheers|thx|ty|bless)/i });
+
+bot.dialog('open', [
+    session => {
+        var waysOfOpening = [
+           'Talk to someone you trust',
+           'Just be open about it, and tell a loved one',
+           'A loved one will be supported',
+           'It\'s nothing abnormal, tell someone close and they will understand'
+        ];
+        session.send(waysOfOpening[Math.floor(Math.random()*waysOfOpening.length)]);
+    }
+]).triggerAction({ matches: /(open|tell|ask.*help|friend|parent)/i });
+
+bot.dialog('unsureOfType', [
+    session => {
+        session.send('You can look on this website: https://www.beyondblue.org.au/the-facts/depression/types-of-depression');
+    }
+]).triggerAction({ matches: /(research|what type|look into|interested)/i });
+
+bot.dialog('causes', [
+    session => {
+        session.send('There are three main causes:');
+        session.send(`1) Family History\nDepression can run in families and some people will be at an increased genetic risk.`);
+        session.send(`2) Personality\nSome people may be more at risk of depression because of their personality, particularly if they have a tendency to worry a lot, have low self-esteem.`);
+        session.send(`3) Drug and alcohol abuse\nDrug and alcohol use can both lead to and result from depression. Many people with depression also have drug and alcohol problems.`);
+    }
+]).triggerAction({ matches: /(cause.*depression|what are.*cause)/i });
+
+bot.dialog('symptoms', [
+    session => {
+        session.send('There are four different symptoms:');
+        session.send(`1) Behaviour\n- not going out anymore\n - not getting things done at work/school\n - withdrawing from close family and friends\n - relying on alcohol and sedatives`);
+        session.send(`2) Feelings\n- overwhelmed\n- guilty\n - irritable\n - frustrated\n- lacking in confidence\n- disappointed\n- miserable`);
+        session.send(`3) Thoughts\n- 'I'm a failure'\n- 'It's my fault'\n - 'I'm worthless'\n - 'Life's not worth living'\n- 'people would be better off without me'`);
+        session.send(`4) Physical\n- tired all the time\n- sick and run down\n - headaches and muscle pains\n - sleep problems\n- loss or change of appetite\n- significant weight loss or gain`);
+    }
+]).triggerAction({ matches: /(symptoms.*depression|features.*depression)/i });
+
+bot.dialog('definition', [
+    session => {
+        session.send('While we all feel sad, moody or low from time to time, some people experience these feelings intensely, for long periods of and sometimes without any apparent reason. Depression is more than just a low mood – it\'s a serious condition that affects your physical and mental health.');
+    }
+]).triggerAction({ matches: /(what does depression|what is depression|defin.*depression|depression.*mean|meaning.*depression)/i });
+
+bot.dialog('notSatisfied', [
+    session => {
+        var unsure = [
+          'I\'m all ears',
+          'Shoot a question at me!',
+          'Go on...',
+          'Oh is there more?',
+          'How else can I help?'
+        ];
+        builder.Prompts.text(session, unsure[Math.floor(Math.random()*unsure.length)]);
+    },
+    (session, results) => {
+        session.dialogData.needsFixed = results.response;
+        session.send('We will look into this! Thanks for the heads up ??');
+        session.endDialog();
+    }
+]).triggerAction({ matches: /(not satisfied|don't like|unsatisf|not finish|not content|ask.*you|more|have.*question)/i });
+
+
+
+server.post('/api/messages', connector.listen());
