@@ -1,3 +1,5 @@
+require('dotenv').load();
+
 import React from 'React';
 import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native';
 import { Bubble, GiftedChat } from 'react-native-gifted-chat';
@@ -5,7 +7,7 @@ import { DirectLine } from 'botframework-directlinejs';
 import { Avatar, Header } from 'react-native-elements';
 
 const directLine = new DirectLine({
-  secret: 'l_s_ArfNlk4.cwA.qzc.wSrA9_htdQaRshEWnJGNbCAQuUGZPAkw-_-Q5dE46e4'
+  secret: process.env.directLineSecret
 });
 
 const botAvatar = 'https://i.imgur.com/t6mQMfS.png';
@@ -85,7 +87,7 @@ export default class ChatScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Header
-          backgroundColor='powderblue'
+          backgroundColor="powderblue"
           leftComponent={{
             icon: 'arrow-back',
             color: '#000',
@@ -103,7 +105,8 @@ export default class ChatScreen extends React.Component {
           onSend={this.onSend}
           user={{
             _id: 1,
-            avatar: 'https://timedotcom.files.wordpress.com/2017/12/terry-crews-person-of-year-2017-time-magazine-2.jpg'
+            avatar:
+              'https://timedotcom.files.wordpress.com/2017/12/terry-crews-person-of-year-2017-time-magazine-2.jpg'
           }}
           renderBubble={this.renderBubble.bind(this)}
           showUserAvatar={true}
