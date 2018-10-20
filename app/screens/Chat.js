@@ -1,5 +1,4 @@
-require('dotenv').load();
-
+import { DIRECTLINE_SECRET } from 'react-native-dotenv';
 import React from 'React';
 import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native';
 import { Bubble, GiftedChat } from 'react-native-gifted-chat';
@@ -7,7 +6,7 @@ import { DirectLine } from 'botframework-directlinejs';
 import { Avatar, Header } from 'react-native-elements';
 
 const directLine = new DirectLine({
-  secret: process.env.directLineSecret
+  secret: DIRECTLINE_SECRET
 });
 
 const botAvatar = 'https://i.imgur.com/t6mQMfS.png';

@@ -10,7 +10,7 @@ export default class HomeScreen extends React.Component {
 
   async componentDidMount() {
     await Font.loadAsync({
-      'dahlia script': require('../assets/fonts/dahlia script.ttf')
+      dahlia_script: require('../assets/fonts/dahlia_script.ttf')
     });
 
     this.setState({ fontLoaded: true });
@@ -38,7 +38,7 @@ export default class HomeScreen extends React.Component {
                 textAlign: 'center',
                 fontSize: 75,
                 marginBottom: 20,
-                fontFamily: 'dahlia script'
+                fontFamily: 'dahlia_script'
               }}
             >
               Find Your {'\n'} Mind
