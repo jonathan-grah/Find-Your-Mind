@@ -3301,3 +3301,5 @@ patch:
         patched: '2019-07-16T15:53:18.666Z'
     - expo > expo-print > babel-preset-expo > babel-preset-react-native > babel-plugin-transform-es2015-classes > babel-helper-define-map > babel-helper-function-name > babel-template > babel-traverse > babel-types > lodash:
         patched: '2019-07-16T15:53:18.666Z'
+    - snyk > snyk-nuget-plugin > dotnet-deps-parser > lodash:
+        patched: '2019-08-28T15:31:19.429Z'
